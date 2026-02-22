@@ -1,0 +1,133 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bootstracts"
+version = "0.2.0"
+description = "Probabilistic structural connectomics via tractogram bootstrap"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [
+    { name = "Velho Mago", email = "rdneuro@users.noreply.github.com" },
+]
+keywords = [
+    "neuroscience",
+    "connectomics",
+    "tractography",
+    "bootstrap",
+    "uncertainty-quantification",
+    "diffusion-mri",
+    "structural-connectivity",
+    "brain-networks",
+    "neuroimaging",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "numpy>=1.22",
+    "scipy>=1.9",
+    "matplotlib>=3.5",
+    "h5py>=3.7",
+]
+
+[project.optional-dependencies]
+gpu = [
+    "cupy>=12.0",
+]
+jax = [
+    "jax>=0.4",
+    "jaxlib>=0.4",
+]
+all = [
+    "cupy>=12.0",
+    "jax>=0.4",
+    "jaxlib>=0.4",
+    "nilearn>=0.10",
+    "dipy>=1.7",
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "hypothesis>=6.0",
+    "ruff>=0.1",
+    "mypy>=1.0",
+    "pre-commit>=3.0",
+]
+docs = [
+    "sphinx>=6.0",
+    "sphinx-rtd-theme>=1.0",
+    "numpydoc>=1.5",
+    "myst-parser>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/rdneuro/bootstracts"
+Documentation = "https://bootstracts.readthedocs.io"
+Repository = "https://github.com/rdneuro/bootstracts"
+Issues = "https://github.com/rdneuro/bootstracts/issues"
+Changelog = "https://github.com/rdneuro/bootstracts/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+bootstracts = ["py.typed"]
+
+# ── ruff ──────────────────────────────────────────────────────────────
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "NPY",  # numpy-specific
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "N802",  # function name lowercase (numpy convention)
+    "N803",  # argument name lowercase
+    "N806",  # variable lowercase
+    "B023",  # loop variable not used
+    "SIM108",  # ternary operator
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["bootstracts"]
+
+# ── mypy ──────────────────────────────────────────────────────────────
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+# ── pytest ────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+markers = [
+    "slow: marks tests as slow (run with --runslow)",
+    "gpu: marks tests requiring GPU",
+]
